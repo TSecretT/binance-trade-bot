@@ -29,7 +29,7 @@ class Logger:
         # notification handler
         self.NotificationHandler = NotificationHandler(enable_notifications)
 
-    def log(self, message, level="info", notification=True):
+    def log(self, message, level="info", notification=True, telegramNotification=True):
 
         if level == "info":
             self.Logger.info(message)
@@ -43,14 +43,18 @@ class Logger:
         if notification and self.NotificationHandler.enabled:
             self.NotificationHandler.send_notification(str(message))
 
-    def info(self, message, notification=True):
-        self.log(message, "info", notification)
+        if telegramNotification:
+            self.NotificationHandler.send_telegram_notification(str(message))
+            
 
-    def warning(self, message, notification=True):
-        self.log(message, "warning", notification)
+    def info(self, message, notification=True, telegramNotification=True):
+        self.log(message, "info", notification, telegramNotification)
 
-    def error(self, message, notification=True):
-        self.log(message, "error", notification)
+    def warning(self, message, notification=True, telegramNotification=True):
+        self.log(message, "warning", notification, telegramNotification)
 
-    def debug(self, message, notification=False):
-        self.log(message, "debug", notification)
+    def error(self, message, notification=True, telegramNotification=True):
+        self.log(message, "error", notification, telegramNotification)
+
+    def debug(self, message, notification=False, telegramNotification=True):
+        self.log(message, "debug", notification, telegramNotification)

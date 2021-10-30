@@ -45,7 +45,10 @@ def main():
     schedule.every(1).hours.do(db.prune_value_history).tag("pruning value history")
     try:
         while True:
-            schedule.run_pending()
-            time.sleep(1)
+            try:
+                schedule.run_pending()
+                time.sleep(1)
+            except KeyboardInterrupt:
+                break
     finally:
         manager.stream_manager.close()
